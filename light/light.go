@@ -2,6 +2,7 @@ package light
 
 import (
 	uuid "github.com/satori/go.uuid"
+	"log"
 	"observer-pattern/observer"
 )
 
@@ -11,9 +12,9 @@ type light struct {
 	cars    map[uuid.UUID]observer.Observer
 }
 
-func NewObservable() observer.Observable {
+func NewObservable(signal Signal) observer.Observable {
 	return &light{
-		signal: NewSignal(),
+		signal: signal,
 		cars:   make(map[uuid.UUID]observer.Observer),
 	}
 }
@@ -41,6 +42,13 @@ func (l *light) NotifyObservers() {
 	l.changed = false
 }
 
-func (l *light) GetSignal() Signal {
-	return l.signal
+func (l *light) GetSignal() string {
+	return l.signal.GetSignal()
+}
+
+func (l *light) ClearObservers() {
+	if l.signal.GetSignal() == GreenSignal {
+		log.Println("Signal was green, all cars moved :)")
+		l.cars = make(map[uuid.UUID]observer.Observer)
+	}
 }

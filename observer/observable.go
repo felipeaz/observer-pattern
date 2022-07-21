@@ -5,4 +5,7 @@ type Observable interface {
 	RemoveObserver(o Observer)
 	NotifyObservers()
 	SetChanged()
+
+	GetSignal() string
+	ClearObservers()
 }

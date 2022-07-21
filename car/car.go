@@ -18,7 +18,7 @@ func NewObserver() observer.Observer {
 }
 
 func (c *car) Update() {
-	log.Println("Received a message from LightSignal")
+	log.Printf("Car ID %s Received the Light Signal - %s\n", c.GetID().String(), c.LightSignal.GetSignal())
 }
 
 func (c *car) RegisterObservable(lightSignal observer.Observable) {
@@ -30,6 +30,13 @@ func (c *car) RegisterObservable(lightSignal observer.Observable) {
 		c.LightSignal.RemoveObserver(c)
 	}
 	c.LightSignal = lightSignal
+}
+
+func (c *car) RemoveObservable() {
+	if c.LightSignal == nil {
+		return
+	}
+	c.LightSignal.RemoveObserver(c)
 }
 
 func (c *car) GetID() uuid.UUID {
